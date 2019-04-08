@@ -17,6 +17,7 @@
     },
     "fromEmailAddress": {
       "type": "string",
+      "defaultValue": "projredcap@noreply.com",
       "metadata": {
         "description": "Email address configured as the sending address in RedCAP"
       }
