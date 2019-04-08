@@ -16,7 +16,7 @@ __Details__
 ### OneDrive or Other CloudHosted fileshares
 **Public OneDrive shares cannot be accessed with the HTTP/S Head request and should not be used for this template. DropBox or other hosting providers have not been tested with this template. Strongly consider Blob storage with SAS key for hosting the REDCap source zipped files otherwise the source files may fail to deploy.**
 
-####Changes:
+###Changes:
 
  * Added REDCap version specification
  * Added more detail in deployment descriptions
