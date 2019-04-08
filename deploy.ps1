@@ -1,4 +1,4 @@
-﻿$global:ProgressPreference = "SilentlyContinue"
+$global:ProgressPreference = "SilentlyContinue"
 $AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
 [System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
 
@@ -24,8 +24,8 @@ function Main {
 
 		$filename = GetFileName($zipUri)
 		$filePath = "$path\$filename"
-        $version = $filename.Replace(".zip","")
-		$dbver = $version.Replace("redcap","")
+        $version = "$env:APPSETTING_redcapAppVersion"
+		$dbver = $version
 
         Log("Processing $version")
 
@@ -135,7 +135,6 @@ function UpdateConfig {
 		"UPDATE $($env:APPSETTING_DBName).redcap_config SET value ='$env:APPSETTING_StorageKey' WHERE field_name = 'azure_app_secret';",
 		"UPDATE $($env:APPSETTING_DBName).redcap_config SET value ='$env:APPSETTING_StorageContainerName' WHERE field_name = 'azure_container';"
 		"UPDATE $($env:APPSETTING_DBName).redcap_config SET value ='4' WHERE field_name = 'edoc_storage_option';"
-		"REPLACE INTO $($env:APPSETTING_DBName).redcap_config (field_name, value) VALUES ('azure_quickstart', '1');"
 	)
 	$sqlStr = $sqlList -join "`r`n" | Out-String
 	#SilentlyContinue should accomodate earlier versions that don't have direct support for Azure storage
@@ -230,17 +229,23 @@ function MoveFiles {
 }
 
 function GetFileName($Url) {
+	$filename = $null
 	$res = Invoke-WebRequest -Method Head -Uri $Url -UseBasicParsing
-
 	$header = $res.Headers["content-disposition"]
+
 	if ($null -ne $header) {
 		$filename = [System.Net.Http.Headers.ContentDispositionHeaderValue]::Parse($header).Filename
 		if ($filename.IndexOf('"') -gt -1) {
 			$filename = ConvertFrom-Json $filename
 		}
 	} else {
-		$header = $res.Headers.Keys | Where-Object { if($_.contains("filename")){$_}}
-		$filename = $res.Headers[$header]
+		$header = $res.Headers.Keys | Where-Object { if($_.contains("filename")) {$_}}
+		if ($null -ne $header) {
+			$filename = $res.Headers[$header]
+		} else {
+			# The response does not contain a filename attribute. Provide a stubfile name to allow deployment to continue.
+			$filename = "redcap_source.zip"
+		}
 	}
 	return $filename
 }
