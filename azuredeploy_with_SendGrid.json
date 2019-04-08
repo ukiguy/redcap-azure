@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -18,13 +18,13 @@
     "fromEmailAddress": {
       "type": "string",
       "metadata": {
-        "description": "Email address configured as the sending address in REDCap"
+        "description": "Email address configured as the sending address in RedCAP"
       }
     },
     "redcapAppZip": {
       "type": "string",
       "metadata": {
-        "description": "A publicly accessible path to your copy of the REDCap zip file."
+        "description": "A publicly accessible path to your copy of the REDCap Source zipped files. Can be downloaded from https://community.projectredcap.org/index.html"
       }
     },
     "skuName": {
@@ -143,7 +143,7 @@
     },
     "repoURL": {
       "type": "string",
-      "defaultValue": "https://github.com/vanderbilt-redcap/redcap-azure.git",
+      "defaultValue": "https://github.com/PixelStroke/redcap-azure.git",
       "metadata": {
         "description": "The path to the deployment source files on GitHub"
       }
@@ -153,7 +153,23 @@
       "defaultValue": "master",
       "metadata": {
         "description": "The main branch of the application repo"
-      }
+      },
+      "redcapAppVersion": {
+        "type": "string",
+        "defaultValue": "8.11.8",
+        "allowedValues": [
+          "8.10.0",
+          "8.10.1",
+          "8.11.0",
+          "8.11.1",
+          "8.11.2",
+          "8.11.3",
+          "8.11.4",
+          "8.11.5",
+          "8.11.6",
+          "8.11.7",
+          "8.11.8"
+        ]
     }
   },
   "variables": {
@@ -241,7 +257,7 @@
         "serverFarmId": "[variables('hostingPlanName')]",
         "siteConfig": {
           "phpVersion": "7.0",
-          "alwaysOn": true,
+          "alwaysOn": false,
           "connectionStrings": [
             {
               "name": "defaultConnection",
@@ -320,12 +336,13 @@
             "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]"
           ],
           "tags": {
-            "displayName": "CodeDeploy"
+            "displayName": "GitDeploy"
           },
           "properties": {
-            "RepoUrl": "[parameters('repoUrl')]",
+            "repoUrl": "[parameters('repoUrl')]",
             "branch": "[parameters('branch')]",
-            "IsManualIntegration": true
+            "isManualIntegration": true,
+            "isMercurial": false
           }
         }
       ]
