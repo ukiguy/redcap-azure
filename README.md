@@ -5,10 +5,25 @@
 
 Description | Link
 --- | ---
-Deploy with your SMTP Relay | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fvanderbilt-redcap%2Fredcap-azure%2Fmaster%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-Deploy using SendGrid | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fvanderbilt-redcap%2Fredcap-azure%2Fmaster%2Fazuredeploy_with_SendGrid.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+Deploy with your SMTP Relay | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpixelstroke%2Fredcap-azure%2Fmaster%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+Deploy using SendGrid | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpixelstroke%2Fredcap-azure%2Fmaster%2Fazuredeploy_with_SendGrid.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
 __Details__
+
+### Note
+**This has been updated and customize to support Azure deployments where failures were a common occurence. Some of the deployment steps have changed and thus should be considered before utilizing this. This repository should be considered unofficial, but should still work for you**
+
+### OneDrive or Other CloudHosted fileshares
+**Public OneDrive shares cannot be accessed with the HTTP/S Head request and should not be used for this template. DropBox or other hosting providers have not been tested with this template. Strongly consider Blob storage with SAS key for hosting the REDCap source zipped files otherwise the source files may fail to deploy.**
+
+####Changes:
+
+ * Added REDCap version specification
+ * Added more detail in deployment descriptions
+ * Removed AlwaysOn setting to allow for F1 pricing plans to deploy. Remember to set this to true in the Web App if deploying to production.
+ * Modified powershell deployment script to not rely specifically on Headers to successfully name and deploy REDCap. It will still attempt to use the response header to name the file but if that fails then will fallback to redcap_source.zip.
+ * Modified powershell deployment script to use the redcapAppVersion parameter specified during deployment
+
 
 This template automates the deployment of the REDCap solution into Azure using managed PaaS resources. The template assumes you are deploying a version of REDCap that supports direct connection to Azure Blob Storage. If you deploy an older version, deployment will succeed but you will need to manually provision NFS storage in Azure, and delete the new storage account. For NFS, consider:
   * https://docs.microsoft.com/en-us/azure/azure-netapp-files/
