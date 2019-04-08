@@ -284,6 +284,10 @@
               "value": "[parameters('redcapAppZip')]"
             },
             {
+              "Name": "redcapAppVersion",
+              "value": "[parameters('redcapAppVersion')"
+            },
+            {
               "Name": "DBHostName",
               "value": "[concat(variables('serverName') ,'.mysql.database.azure.com')]"
             },
