@@ -42,10 +42,13 @@
       "value": "N/A"
     },
     "repoURL": {
-      "value": "https://github.com/vanderbilt-redcap/redcap-azure.git"
+      "value": "https://github.com/PixelStroke/redcap-azure.git"
     },
     "branch": {
       "value": "master"
+    },
+    "redcapAppVersion": {
+      "value": "8.11.8"
     }
   }
 }
