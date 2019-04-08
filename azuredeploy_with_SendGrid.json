@@ -153,24 +153,24 @@
       "defaultValue": "master",
       "metadata": {
         "description": "The main branch of the application repo"
-      },
-      "redcapAppVersion": {
-        "type": "string",
-        "defaultValue": "8.11.8",
-        "allowedValues": [
-          "8.10.0",
-          "8.10.1",
-          "8.11.0",
-          "8.11.1",
-          "8.11.2",
-          "8.11.3",
-          "8.11.4",
-          "8.11.5",
-          "8.11.6",
-          "8.11.7",
-          "8.11.8"
-        ]
       }
+    },
+    "redcapAppVersion": {
+      "type": "string",
+      "defaultValue": "8.11.8",
+      "allowedValues": [
+        "8.10.0",
+        "8.10.1",
+        "8.11.0",
+        "8.11.1",
+        "8.11.2",
+        "8.11.3",
+        "8.11.4",
+        "8.11.5",
+        "8.11.6",
+        "8.11.7",
+        "8.11.8"
+      ]
     }
   },
   "variables": {
