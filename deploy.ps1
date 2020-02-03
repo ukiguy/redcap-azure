@@ -159,8 +159,10 @@ function CallSql {
 	$cmd.Connection  = $cn
 	$cmd.CommandType = [System.Data.CommandType]::Text
 	$cmd.CommandTimeout = 30000
+	Log("Executing Query")
 	$cmd.CommandText = $Query
 	$cmd.ExecuteNonQuery()
+	Log("Finish Query")
 	$cmd.Dispose()
 	$cn.Close()
 	$cn.Dispose()
