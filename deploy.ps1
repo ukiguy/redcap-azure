@@ -160,6 +160,7 @@ function CallSql {
 	$cmd.CommandType = [System.Data.CommandType]::Text
 	$cmd.CommandTimeout = 30000
 	Log("Executing Query")
+	Start-Sleep -s 60
 	$cmd.CommandText = $Query
 	$cmd.ExecuteNonQuery()
 	Log("Finish Query")
